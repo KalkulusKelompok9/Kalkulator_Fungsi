@@ -4,1286 +4,242 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Kalkulator Matematika</title>
+    <meta name="description" content="KalkulatorPro untuk integral tak tentu, integral tentu, dan limit fungsi.">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    <title>KalkulatorCalculus  | Kalkulator Kalkulus</title>
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
-        }
+    <link rel="stylesheet" href="style.css">
 
-        .header {
-            background: #2563eb;
-            color: white;
-            text-align: center;
-            padding: 32px 20px;
-        }
+    <!-- Library untuk perhitungan matematika -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/13.2.0/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nerdamer@1.1.13/all.min.js"></script>
 
-        .header h1 {
-            margin: 0 0 8px;
-            font-size: 30px;
-        }
-
-        .header p {
-            margin: 0;
-            font-size: 16px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 35px auto;
-            padding: 0 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 17px;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 180px;
-            padding: 15px;
-            border: 2px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 16px;
-            resize: vertical;
-            outline: none;
-            font-family: Arial, sans-serif;
-        }
-
-        textarea:focus {
-            border-color: #2563eb;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 15px;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #2563eb;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-
-        .hasil {
-            margin-top: 25px;
-            padding: 22px;
-            background: #f8fafc;
-            border-radius: 12px;
-            border-left: 5px solid #2563eb;
-            line-height: 1.6;
-        }
-
-        .hasil h2 {
-            margin-top: 0;
-            color: #1e3a8a;
-        }
-
-        .hasil h3 {
-            margin-bottom: 8px;
-            color: #334155;
-        }
-
-        .contoh {
-            margin-top: 20px;
-            padding: 18px;
-            background: #eff6ff;
-            border-radius: 10px;
-        }
-
-        .contoh strong {
-            color: #1e40af;
-        }
-
-        .rumus {
-            background: white;
-            border: 1px solid #dbeafe;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        .jawaban-besar {
-            font-size: 21px;
-            font-weight: bold;
-            color: #1d4ed8;
-        }
-
-        .peringatan {
-            background: #fff7ed;
-            border-left: 4px solid #f97316;
-            padding: 12px;
-            border-radius: 6px;
-        }
-    </style>
+    <!-- Library untuk menampilkan rumus matematika -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            startup: { typeset: false }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body>
-
-    <div class="header">
-        <h1>📚 Kalkulator Matematika</h1>
-        <p>Masukkan soal dan dapatkan jawaban beserta cara penyelesaiannya</p>
-    </div>
-
-    <div class="container">
-
-        <div class="card">
-
-            <label for="soal">
-                Tempel Soal Anda Yang Mau Di Kerjakan
-            </label>
-
-            <textarea
-    id="soal"
-    placeholder="Tempel soal Tugas Anda di sini..."
-></textarea>
-
-            <button onclick="jawabSoal()">
-                JAWAB & JELASKAN
-            </button>
-
-            <div class="hasil" id="hasil">
-                <h2>Hasil</h2>
-                <p>Jawaban akan muncul di sini.</p>
+    <header class="topbar">
+        <div class="brand">
+            <div class="brand-icon">∫</div>
+            <div>
+                <h1>Kalkulator Calculus</h1>
+                <p>Kalkulator Kalkulus Interaktif</p>
             </div>
-
-            <div class="contoh">
-                <strong>💡 Cara menggunakan:</strong>
-
-                <ol>
-                    <li>Salin soal dari PowerPoint.</li>
-                    <li>Tempel soal ke kotak di atas.</li>
-                    <li>Klik tombol <b>JAWAB & JELASKAN</b>.</li>
-                    <li>Jawaban dan langkah penyelesaian akan ditampilkan.</li>
-                </ol>
-
-                <p>
-                    <b>Jenis soal yang didukung:</b>
-                </p>
-
-                <ul>
-                    <li>Nilai fungsi</li>
-                    <li>f + g</li>
-                    <li>f - g</li>
-                    <li>f × g</li>
-                    <li>f / g</li>
-                    <li>Komposisi fungsi</li>
-                    <li>Domain fungsi pecahan</li>
-                    <li>Domain fungsi akar</li>
-                    <li>Titik puncak</li>
-                    <li>Invers fungsi linear</li>
-                </ul>
-            </div>
-
         </div>
 
-    </div>
-
-
-<script>
-
-/* =====================================================
-   FUNGSI BANTU
-===================================================== */
-
-function formatAngka(angka) {
-
-    if (Number.isInteger(angka)) {
-        return angka.toString();
-    }
-
-    return Number(angka.toFixed(6)).toString();
-}
-
-
-function formatLinear(a, b) {
-
-    let hasil = "";
-
-    if (a !== 0) {
-
-        if (a === 1) {
-            hasil += "x";
-        } else if (a === -1) {
-            hasil += "-x";
-        } else {
-            hasil += formatAngka(a) + "x";
-        }
-    }
-
-    if (b !== 0) {
-
-        if (hasil !== "") {
-
-            if (b > 0) {
-                hasil += " + " + formatAngka(b);
-            } else {
-                hasil += " - " + formatAngka(Math.abs(b));
-            }
-
-        } else {
-            hasil += formatAngka(b);
-        }
-    }
-
-    if (hasil === "") {
-        hasil = "0";
-    }
-
-    return hasil;
-}
-
-
-function formatQuadratic(a, b, c) {
-
-    let hasil = "";
-
-    if (a !== 0) {
-
-        if (a === 1) {
-            hasil += "x²";
-        } else if (a === -1) {
-            hasil += "-x²";
-        } else {
-            hasil += formatAngka(a) + "x²";
-        }
-    }
-
-    if (b !== 0) {
-
-        if (hasil !== "") {
-
-            if (b > 0) {
-                hasil += " + ";
-            } else {
-                hasil += " - ";
-            }
-
-            let nilai = Math.abs(b);
-
-            if (nilai === 1) {
-                hasil += "x";
-            } else {
-                hasil += formatAngka(nilai) + "x";
-            }
-
-        } else {
-
-            if (b === 1) {
-                hasil += "x";
-            } else if (b === -1) {
-                hasil += "-x";
-            } else {
-                hasil += formatAngka(b) + "x";
-            }
-        }
-    }
-
-    if (c !== 0) {
-
-        if (hasil !== "") {
-
-            if (c > 0) {
-                hasil += " + " + formatAngka(c);
-            } else {
-                hasil += " - " + formatAngka(Math.abs(c));
-            }
-
-        } else {
-            hasil += formatAngka(c);
-        }
-    }
-
-    if (hasil === "") {
-        hasil = "0";
-    }
-
-    return hasil;
-}
-
-
-/* =====================================================
-   MEMBACA FUNGSI LINEAR
-   Contoh:
-   f(x) = 2x + 7
-   f(x) = x - 3
-===================================================== */
-
-function bacaFungsi(nama, teks) {
-
-    let pola = new RegExp(
-        nama +
-        "\\(x\\)\\s*=\\s*" +
-        "([+-]?\\d*\\.?\\d*)x" +
-        "\\s*([+-]\\s*\\d+(?:\\.\\d+)?)?"
-    );
-
-    let cocok = teks.match(pola);
-
-    if (!cocok) {
-        return null;
-    }
-
-    let a = cocok[1];
-
-    if (a === "" || a === "+") {
-        a = 1;
-    } else if (a === "-") {
-        a = -1;
-    } else {
-        a = Number(a);
-    }
-
-    let b = 0;
-
-    if (cocok[2]) {
-        b = Number(cocok[2].replace(/\s/g, ""));
-    }
-
-    return {
-        a: a,
-        b: b
-    };
-}
-
-
-/* =====================================================
-   PROGRAM UTAMA
-===================================================== */
-
-function jawabSoal() {
-
-    const soal = document.getElementById("soal").value.trim();
-    const hasil = document.getElementById("hasil");
-
-    if (soal === "") {
-
-        hasil.innerHTML = `
-            <h2>Hasil</h2>
-            <p>Silakan masukkan soal terlebih dahulu.</p>
-        `;
-
-        return;
-    }
-
-    let teks = soal
-        .toLowerCase()
-        .replace(/²/g, "^2")
-        .replace(/×/g, "*")
-        .replace(/\s+/g, " ")
-        .replace(/\(\s*g\s*o\s*f\s*\)/g, " gof ")
-        .replace(/\(\s*f\s*o\s*g\s*\)/g, " fog ")
-        .replace(/\(\s*g\s*∘\s*f\s*\)/g, " gof ")
-        .replace(/\(\s*f\s*∘\s*g\s*\)/g, " fog ");
-
-
-    /* =================================================
-       1. NILAI FUNGSI
-       Contoh:
-       f(x) = 2x + 7, tentukan f(5)
-    ================================================= */
-
-    let nilai = teks.match(
-        /f\(x\)\s*=\s*([+-]?\d*\.?\d*)x\s*([+-]\s*\d+(?:\.\d+)?)?.*f\(\s*(-?\d+(?:\.\d+)?)\s*\)/
-    );
-
-    if (nilai) {
-
-        let a = nilai[1];
-
-        if (a === "" || a === "+") {
-            a = 1;
-        } else if (a === "-") {
-            a = -1;
-        } else {
-            a = Number(a);
-        }
-
-        let b = nilai[2]
-            ? Number(nilai[2].replace(/\s/g, ""))
-            : 0;
-
-        let x = Number(nilai[3]);
-
-        let jawaban = a * x + b;
-
-        hasil.innerHTML = `
-            <h2>Jawaban</h2>
-
-            <p><b>Soal:</b> ${soal}</p>
-
-            <h3>Hasil:</h3>
-
-            <p class="jawaban-besar">
-                f(${formatAngka(x)}) = ${formatAngka(jawaban)}
-            </p>
-
-            <h3>Cara Penyelesaian:</h3>
-
-            <ol>
-                <li>Diketahui:
-                    <div class="rumus">
-                        f(x) = ${formatLinear(a, b)}
-                    </div>
-                </li>
-
-                <li>Masukkan x = ${formatAngka(x)}.</li>
-
-                <li>
-                    f(${formatAngka(x)}) =
-                    ${formatLinear(a, b).replace("x", "(" + formatAngka(x) + ")")}
-                </li>
-
-                <li>
-                    f(${formatAngka(x)}) =
-                    ${formatAngka(jawaban)}
-                </li>
-            </ol>
-
-            <p>
-                <b>Kesimpulan:</b>
-                Jadi, nilai f(${formatAngka(x)}) adalah
-                <b>${formatAngka(jawaban)}</b>.
-            </p>
-        `;
-
-        return;
-    }
-
-
-    /* =================================================
-       2. f + g
-    ================================================= */
-
-    if (
-        teks.includes("f + g") ||
-        teks.includes("f+g") ||
-        teks.includes("f(x) + g(x)") ||
-        teks.includes("f(x)+g(x)")
-    ) {
-
-        let f = bacaFungsi("f", teks);
-        let g = bacaFungsi("g", teks);
-
-        if (f && g) {
-
-            let a = f.a + g.a;
-            let b = f.b + g.b;
-
-            let jawaban = formatLinear(a, b);
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p><b>Hasil:</b></p>
-
-                <p class="jawaban-besar">
-                    (f + g)(x) = ${jawaban}
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Diketahui:
-                        <div class="rumus">
-                            f(x) = ${formatLinear(f.a, f.b)}
-                            <br>
-                            g(x) = ${formatLinear(g.a, g.b)}
-                        </div>
-                    </li>
-
-                    <li>
-                        Gunakan rumus:
-                        <div class="rumus">
-                            (f + g)(x) = f(x) + g(x)
-                        </div>
-                    </li>
-
-                    <li>
-                        Substitusikan:
-                        <div class="rumus">
-                            (${formatLinear(f.a, f.b)})
-                            +
-                            (${formatLinear(g.a, g.b)})
-                        </div>
-                    </li>
-
-                    <li>
-                        Gabungkan suku sejenis:
-                        <div class="rumus">
-                            ${jawaban}
-                        </div>
-                    </li>
-                </ol>
-
-                <p>
-                    <b>Kesimpulan:</b>
-                    Jadi, (f + g)(x) =
-                    <b>${jawaban}</b>.
-                </p>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       3. f - g
-    ================================================= */
-
-    if (
-        teks.includes("f - g") ||
-        teks.includes("f-g") ||
-        teks.includes("f(x) - g(x)") ||
-        teks.includes("f(x)-g(x)")
-    ) {
-
-        let f = bacaFungsi("f", teks);
-        let g = bacaFungsi("g", teks);
-
-        if (f && g) {
-
-            let a = f.a - g.a;
-            let b = f.b - g.b;
-
-            let jawaban = formatLinear(a, b);
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p class="jawaban-besar">
-                    (f - g)(x) = ${jawaban}
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Diketahui:
-                        <div class="rumus">
-                            f(x) = ${formatLinear(f.a, f.b)}
-                            <br>
-                            g(x) = ${formatLinear(g.a, g.b)}
-                        </div>
-                    </li>
-
-                    <li>
-                        Gunakan rumus:
-                        <div class="rumus">
-                            (f - g)(x) = f(x) - g(x)
-                        </div>
-                    </li>
-
-                    <li>
-                        Substitusikan fungsi.
-                    </li>
-
-                    <li>
-                        Gabungkan suku sejenis:
-                        <div class="rumus">
-                            ${jawaban}
-                        </div>
-                    </li>
-                </ol>
-
-                <p>
-                    <b>Kesimpulan:</b>
-                    Jadi, (f - g)(x) =
-                    <b>${jawaban}</b>.
-                </p>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       4. f × g
-    ================================================= */
-
-    if (
-        teks.includes("f × g") ||
-        teks.includes("f x g") ||
-        teks.includes("f * g") ||
-        teks.includes("fg") ||
-        teks.includes("f(x)g(x)")
-    ) {
-
-        let f = bacaFungsi("f", teks);
-        let g = bacaFungsi("g", teks);
-
-        if (f && g) {
-
-            let a = f.a * g.a;
-            let b = f.a * g.b + f.b * g.a;
-            let c = f.b * g.b;
-
-            let jawaban = formatQuadratic(a, b, c);
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p class="jawaban-besar">
-                    (fg)(x) = ${jawaban}
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Diketahui:
-                        <div class="rumus">
-                            f(x) = ${formatLinear(f.a, f.b)}
-                            <br>
-                            g(x) = ${formatLinear(g.a, g.b)}
-                        </div>
-                    </li>
-
-                    <li>
-                        Gunakan rumus:
-                        <div class="rumus">
-                            (fg)(x) = f(x) × g(x)
-                        </div>
-                    </li>
-
-                    <li>
-                        Kalikan kedua fungsi dan gabungkan suku sejenis.
-                    </li>
-
-                    <li>
-                        Hasil:
-                        <div class="rumus">
-                            ${jawaban}
-                        </div>
-                    </li>
-                </ol>
-
-                <p>
-                    <b>Kesimpulan:</b>
-                    Jadi, hasil perkalian f(x) dan g(x) adalah
-                    <b>${jawaban}</b>.
-                </p>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       5. f / g
-    ================================================= */
-
-    if (
-        teks.includes("f / g") ||
-        teks.includes("f/g") ||
-        teks.includes("f(x) / g(x)") ||
-        teks.includes("f(x)/g(x)")
-    ) {
-
-        let f = bacaFungsi("f", teks);
-        let g = bacaFungsi("g", teks);
-
-        if (f && g) {
-
-            let pembilang = formatLinear(f.a, f.b);
-            let penyebut = formatLinear(g.a, g.b);
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p class="jawaban-besar">
-                    (f/g)(x) =
-                    (${pembilang}) / (${penyebut})
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Diketahui:
-                        <div class="rumus">
-                            f(x) = ${pembilang}
-                            <br>
-                            g(x) = ${penyebut}
-                        </div>
-                    </li>
-
-                    <li>
-                        Gunakan rumus:
-                        <div class="rumus">
-                            (f/g)(x) = f(x) / g(x)
-                        </div>
-                    </li>
-
-                    <li>
-                        Penyebut tidak boleh sama dengan nol.
-                    </li>
-
-                    <li>
-                        Jadi:
-                        <div class="rumus">
-                            (f/g)(x) =
-                            (${pembilang}) / (${penyebut})
-                        </div>
-                    </li>
-                </ol>
-
-                <div class="peringatan">
-                    <b>Catatan:</b>
-                    Domain tidak boleh memuat nilai x yang membuat
-                    g(x) = 0.
+        <div class="engine-status">
+            <span class="status-dot"></span>
+            <span id="engine-status">Memeriksa mesin...</span>
+        </div>
+    </header>
+
+    <main class="layout">
+
+        <!-- PANEL INPUT -->
+        <section class="panel input-panel">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">RUANG KERJA MATEMATIKA</span>
+                    <h2>Komputasi Simbolik</h2>
                 </div>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       6. KOMPOSISI f ∘ g
-    ================================================= */
-
-    if (
-        teks.includes("f ∘ g") ||
-        teks.includes("f o g") ||
-        teks.includes("fog") ||
-        /\bf\s*o\s*g\b/.test(teks)
-    ) {
-
-        let f = bacaFungsi("f", teks);
-        let g = bacaFungsi("g", teks);
-
-        if (f && g) {
-
-            let a = f.a * g.a;
-            let b = f.a * g.b + f.b;
-
-            let jawaban = formatLinear(a, b);
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p class="jawaban-besar">
-                    (f ∘ g)(x) = ${jawaban}
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Diketahui:
-                        <div class="rumus">
-                            f(x) = ${formatLinear(f.a, f.b)}
-                            <br>
-                            g(x) = ${formatLinear(g.a, g.b)}
-                        </div>
-                    </li>
-
-                    <li>
-                        Gunakan:
-                        <div class="rumus">
-                            (f ∘ g)(x) = f(g(x))
-                        </div>
-                    </li>
-
-                    <li>
-                        Masukkan g(x) ke dalam f(x).
-                    </li>
-
-                    <li>
-                        Sederhanakan:
-                        <div class="rumus">
-                            ${jawaban}
-                        </div>
-                    </li>
-                </ol>
-
-                <p>
-                    <b>Kesimpulan:</b>
-                    Jadi, (f ∘ g)(x) =
-                    <b>${jawaban}</b>.
-                </p>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       7. KOMPOSISI g ∘ f
-    ================================================= */
-
-    if (
-        teks.includes("g ∘ f") ||
-        teks.includes("g o f") ||
-        teks.includes("gof") ||
-        /\bg\s*o\s*f\b/.test(teks)
-    ) {
-
-        let f = bacaFungsi("f", teks);
-        let g = bacaFungsi("g", teks);
-
-        if (f && g) {
-
-            let a = g.a * f.a;
-            let b = g.a * f.b + g.b;
-
-            let jawaban = formatLinear(a, b);
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p class="jawaban-besar">
-                    (g ∘ f)(x) = ${jawaban}
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Gunakan:
-                        <div class="rumus">
-                            (g ∘ f)(x) = g(f(x))
-                        </div>
-                    </li>
-
-                    <li>
-                        Masukkan f(x) ke dalam g(x).
-                        <div class="rumus">
-                            g(f(x)) = ${formatLinear(g.a, g.b).replace("x", "(" + formatLinear(f.a, f.b) + ")")}
-                        </div>
-                    </li>
-
-                    <li>
-                        Sederhanakan:
-                        <div class="rumus">
-                            ${jawaban}
-                        </div>
-                    </li>
-                </ol>
-
-                <p>
-                    <b>Kesimpulan:</b>
-                    Jadi, (g ∘ f)(x) =
-                    <b>${jawaban}</b>.
-                </p>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       8. TITIK PUNCAK
-       Contoh:
-       f(x) = x² - 6x + 5
-    ================================================= */
-
-    if (
-        teks.includes("titik puncak") ||
-        teks.includes("puncak")
-    ) {
-
-        let pola = teks.match(
-            /f\(x\)\s*=\s*([+-]?\d*\.?\d*)x\^2\s*([+-]\s*\d+(?:\.\d+)?)x\s*([+-]\s*\d+(?:\.\d+)?)/
-        );
-
-        if (pola) {
-
-            let a = pola[1];
-
-            if (a === "" || a === "+") {
-                a = 1;
-            } else if (a === "-") {
-                a = -1;
-            } else {
-                a = Number(a);
-            }
-
-            let b = Number(pola[2].replace(/\s/g, ""));
-            let c = Number(pola[3].replace(/\s/g, ""));
-
-            let xPuncak = -b / (2 * a);
-            let yPuncak =
-                a * xPuncak * xPuncak +
-                b * xPuncak +
-                c;
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p class="jawaban-besar">
-                    Titik puncak = 
-                    (${formatAngka(xPuncak)}, ${formatAngka(yPuncak)})
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Diketahui:
-                        <div class="rumus">
-                            f(x) = ${formatQuadratic(a, b, c)}
-                        </div>
-                    </li>
-
-                    <li>
-                        Gunakan rumus:
-                        <div class="rumus">
-                            x = -b / 2a
-                        </div>
-                    </li>
-
-                    <li>
-                        Masukkan nilai a dan b:
-                        <div class="rumus">
-                            x = -(${b}) / 2(${a})
-                        </div>
-                    </li>
-
-                    <li>
-                        Diperoleh:
-                        <div class="rumus">
-                            x = ${formatAngka(xPuncak)}
-                        </div>
-                    </li>
-
-                    <li>
-                        Masukkan x ke fungsi untuk mendapatkan y.
-                    </li>
-
-                    <li>
-                        Diperoleh:
-                        <div class="rumus">
-                            y = ${formatAngka(yPuncak)}
-                        </div>
-                    </li>
-                </ol>
-
-                <p>
-                    <b>Kesimpulan:</b>
-                    Jadi, titik puncaknya adalah
-                    <b>(${formatAngka(xPuncak)}, ${formatAngka(yPuncak)})</b>.
-                </p>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       9. DOMAIN FUNGSI PECAHAN
-       Contoh:
-       f(x) = 1/(x-2)
-    ================================================= */
-
-    if (teks.includes("domain")) {
-
-        let polaDomain = teks.match(
-            /f\(x\)\s*=\s*[^\/]+\/\s*\(?x\s*([+-])\s*(\d+(?:\.\d+)?)\)?/
-        );
-
-        if (polaDomain) {
-
-            let tanda = polaDomain[1];
-            let angka = Number(polaDomain[2]);
-
-            let nilaiTerlarang;
-
-            if (tanda === "-") {
-                nilaiTerlarang = angka;
-            } else {
-                nilaiTerlarang = -angka;
-            }
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p class="jawaban-besar">
-                    Domain: x ≠ ${formatAngka(nilaiTerlarang)}
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Perhatikan penyebut fungsi.
-                    </li>
-
-                    <li>
-                        Penyebut tidak boleh sama dengan 0.
-                    </li>
-
-                    <li>
-                        Maka:
-                        <div class="rumus">
-                            x ${tanda} ${formatAngka(angka)} ≠ 0
-                        </div>
-                    </li>
-
-                    <li>
-                        Diperoleh:
-                        <div class="rumus">
-                            x ≠ ${formatAngka(nilaiTerlarang)}
-                        </div>
-                    </li>
-                </ol>
-
-                <p>
-                    <b>Kesimpulan:</b>
-                    Domain fungsi adalah semua bilangan real
-                    kecuali x =
-                    <b>${formatAngka(nilaiTerlarang)}</b>.
-                </p>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       10. INVERS FUNGSI LINEAR
-       Contoh:
-       f(x) = 4x - 8
-       tentukan invers
-    ================================================= */
-
-    if (
-        teks.includes("invers") ||
-        teks.includes("f^-1") ||
-        teks.includes("f−1")
-    ) {
-
-        let f = bacaFungsi("f", teks);
-
-        if (f && f.a !== 0) {
-
-            let a = f.a;
-            let b = f.b;
-
-            let invA = 1 / a;
-            let invB = -b / a;
-
-            let jawaban = formatLinear(invA, invB);
-
-            hasil.innerHTML = `
-                <h2>Jawaban</h2>
-
-                <p class="jawaban-besar">
-                    f⁻¹(x) = ${jawaban}
-                </p>
-
-                <h3>Cara Penyelesaian:</h3>
-
-                <ol>
-                    <li>
-                        Diketahui:
-                        <div class="rumus">
-                            f(x) = ${formatLinear(a, b)}
-                        </div>
-                    </li>
-
-                    <li>
-                        Misalkan:
-                        <div class="rumus">
-                            y = ${formatLinear(a, b)}
-                        </div>
-                    </li>
-
-                    <li>
-                        Tukarkan x dan y.
-                    </li>
-
-                    <li>
-                        Selesaikan persamaan untuk y.
-                    </li>
-
-                    <li>
-                        Diperoleh:
-                        <div class="rumus">
-                            f⁻¹(x) = ${jawaban}
-                        </div>
-                    </li>
-                </ol>
-
-                <p>
-                    <b>Kesimpulan:</b>
-                    Jadi, fungsi inversnya adalah
-                    <b>f⁻¹(x) = ${jawaban}</b>.
-                </p>
-            `;
-
-            return;
-        }
-    }
-
-
-    /* =================================================
-       11. DOMAIN FUNGSI AKAR SEDERHANA
-       Contoh:
-       f(x) = √(x+4)
-    ================================================= */
-
-    if (
-        teks.includes("domain") &&
-        (
-            teks.includes("akar") ||
-            teks.includes("√")
-        )
-    ) {
-
-        let polaAkar = teks.match(
-            /(?:√|sqrt)\s*\(?x\s*([+-])\s*(\d+(?:\.\d+)?)\)?/
-        );
-
-        if (polaAkar) {
-
-            let tanda = polaAkar[1];
-            let angka = Number(polaAkar[2]);
-
-            let batas;
-
-            if (tanda === "+") {
-                batas = -angka;
-
-                hasil.innerHTML = `
-                    <h2>Jawaban</h2>
-
-                    <p class="jawaban-besar">
-                        Domain: x ≥ ${formatAngka(batas)}
+                <div class="heading-icon">ƒ</div>
+            </div>
+
+            <!-- PILIHAN MODE -->
+            <div class="mode-tabs" role="group" aria-label="Jenis perhitungan">
+                <button type="button" class="mode-button active" data-mode="indefinite">
+                    Tak Tentu
+                </button>
+                <button type="button" class="mode-button" data-mode="definite">
+                    Tentu
+                </button>
+                <button type="button" class="mode-button" data-mode="limit">
+                    Limit
+                </button>
+            </div>
+
+            <form id="calculator-form">
+                <div class="field">
+                    <label for="expression">Masukkan fungsi matematika</label>
+
+                    <div class="formula-input">
+                        <span class="function-label">f(x) =</span>
+                        <input
+                            id="expression"
+                            type="text"
+                            placeholder="Contoh: x^2 + 3*x"
+                            autocomplete="off"
+                            spellcheck="false"
+                            required
+                        >
+                    </div>
+
+                    <p class="field-help" id="input-help">
+                        Masukkan fungsi yang ingin diintegralkan.
                     </p>
+                </div>
 
-                    <h3>Cara Penyelesaian:</h3>
+                <!-- TOMBOL SIMBOL -->
+                <div class="symbol-section">
+                    <div class="symbol-heading">
+                        <strong>Simbol Matematika</strong>
+                        <span>Klik untuk memasukkan</span>
+                    </div>
 
-                    <ol>
-                        <li>
-                            Bentuk di dalam akar tidak boleh negatif.
-                        </li>
+                    <div class="symbol-grid">
+                        <button type="button" class="symbol-button" data-insert="√(" title="Akar kuadrat">√x</button>
+                        <button type="button" class="symbol-button" data-insert="^2" title="Pangkat dua">x²</button>
+                        <button type="button" class="symbol-button" data-insert="^" title="Pangkat">xʸ</button>
+                        <button type="button" class="symbol-button" data-insert="pi" title="Konstanta pi">π</button>
+                        <button type="button" class="symbol-button" data-insert="e" title="Konstanta Euler">e</button>
+                        <button type="button" class="symbol-button" data-insert="sin(" title="Sinus">sin</button>
+                        <button type="button" class="symbol-button" data-insert="cos(" title="Cosinus">cos</button>
+                        <button type="button" class="symbol-button" data-insert="tan(" title="Tangen">tan</button>
+                        <button type="button" class="symbol-button" data-insert="ln(" title="Logaritma natural">ln</button>
+                        <button type="button" class="symbol-button" data-insert="log(" title="Logaritma basis 10">log</button>
+                        <button type="button" class="symbol-button" data-insert="abs(" title="Nilai mutlak">|x|</button>
+                        <button type="button" class="symbol-button" data-insert="(">(</button>
+                        <button type="button" class="symbol-button" data-insert=")">)</button>
+                        <button type="button" class="symbol-button" data-insert="+" >+</button>
+                        <button type="button" class="symbol-button" data-insert="-" >−</button>
+                        <button type="button" class="symbol-button" data-insert="*" >×</button>
+                        <button type="button" class="symbol-button" data-insert="/" >÷</button>
+                    </div>
+                </div>
 
-                        <li>
-                            Maka:
-                            <div class="rumus">
-                                x + ${formatAngka(angka)} ≥ 0
-                            </div>
-                        </li>
+                <!-- BATAS INTEGRAL -->
+                <div id="integral-bounds" class="bounds-grid hidden">
+                    <div class="field">
+                        <label for="lower-bound">Batas bawah (a)</label>
+                        <input id="lower-bound" type="number" step="any" value="0">
+                    </div>
 
-                        <li>
-                            Diperoleh:
-                            <div class="rumus">
-                                x ≥ ${formatAngka(batas)}
-                            </div>
-                        </li>
-                    </ol>
+                    <div class="field">
+                        <label for="upper-bound">Batas atas (b)</label>
+                        <input id="upper-bound" type="number" step="any" value="2">
+                    </div>
+                </div>
 
-                    <p>
-                        <b>Kesimpulan:</b>
-                        Domainnya adalah
-                        <b>x ≥ ${formatAngka(batas)}</b>.
+                <!-- PARAMETER LIMIT -->
+                <div id="limit-options" class="field hidden">
+                    <label for="limit-point">Nilai yang didekati x →</label>
+                    <input id="limit-point" type="number" step="any" value="2">
+
+                    <label for="limit-direction" class="secondary-label">
+                        Arah pendekatan
+                    </label>
+                    <select id="limit-direction">
+                        <option value="both">Dua arah</option>
+                        <option value="left">Dari kiri</option>
+                        <option value="right">Dari kanan</option>
+                    </select>
+                </div>
+
+                <div class="action-row">
+                    <button type="button" id="clear-button" class="button-secondary">
+                        Hapus
+                    </button>
+
+                    <button type="button" id="backspace-button" class="button-secondary backspace">
+                        ⌫
+                    </button>
+
+                    <button type="submit" id="calculate-button" class="button-primary">
+                        <span>▶</span> Hitung Sekarang
+                    </button>
+                </div>
+
+                <p id="input-status" class="input-status" aria-live="polite">
+                    Siap menerima ekspresi matematika.
+                </p>
+            </form>
+        </section>
+
+        <!-- PANEL HASIL -->
+        <section class="panel result-panel">
+            <div class="section-heading result-heading">
+                <div>
+                    <span class="eyebrow">HASIL PERHITUNGAN</span>
+                    <h2>Analisis Matematika</h2>
+                </div>
+
+                <span class="result-badge">
+                    <span class="status-dot"></span>
+                    <span id="mode-label">Tak Tentu</span>
+                </span>
+            </div>
+
+            <div class="problem-card">
+                <span class="card-label">IDENTIFIKASI PERMASALAHAN</span>
+                <div id="problem-formula" class="math-display">
+                    Masukkan fungsi matematika.
+                </div>
+            </div>
+
+            <div class="down-arrow" aria-hidden="true">↓</div>
+
+            <div id="answer-card" class="answer-card">
+                <span class="card-label">HASIL PERHITUNGAN</span>
+                <div id="answer" class="answer-display">—</div>
+                <p id="answer-note">Hasil akan ditampilkan setelah perhitungan.</p>
+            </div>
+
+            <div class="solution-section">
+                <div class="subheading">
+                    <span class="subheading-icon">☷</span>
+                    <h3>Uraian Langkah Sistematis</h3>
+                </div>
+
+                <div id="solution-steps" class="solution-steps">
+                    <p class="empty-message">
+                        Masukkan fungsi, kemudian tekan Hitung Sekarang.
                     </p>
-                `;
+                </div>
+            </div>
 
-                return;
-            }
+            <div id="graph-section" class="graph-section hidden">
+                <div class="subheading">
+                    <span class="subheading-icon">⌁</span>
+                    <h3>Analisis Kurva</h3>
+                </div>
 
-            if (tanda === "-") {
-                batas = angka;
+                <canvas id="graph" width="800" height="340"></canvas>
+                <p class="graph-caption" id="graph-caption">
+                    Grafik fungsi akan ditampilkan jika tersedia.
+                </p>
+            </div>
 
-                hasil.innerHTML = `
-                    <h2>Jawaban</h2>
+            <div class="history-section">
+                <div class="subheading history-heading">
+                    <span class="subheading-icon">◷</span>
+                    <h3>Riwayat Perhitungan</h3>
+                    <button type="button" id="clear-history" class="text-button">
+                        Hapus
+                    </button>
+                </div>
 
-                    <p class="jawaban-besar">
-                        Domain: x ≥ ${formatAngka(batas)}
-                    </p>
+                <div id="history-list">
+                    <p class="empty-message">Belum ada riwayat perhitungan.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-                    <h3>Cara Penyelesaian:</h3>
+    <footer>
+        <p>© 2026 KalkulatorPro · Media Pembelajaran Matematika</p>
+        <p>Periksa kembali langkah dan asumsi matematika sebelum menggunakan hasil.</p>
+    </footer>
 
-                    <ol>
-                        <li>
-                            Bentuk di dalam akar harus ≥ 0.
-                        </li>
-
-                        <li>
-                            Maka:
-                            <div class="rumus">
-                                x - ${formatAngka(angka)} ≥ 0
-                            </div>
-                        </li>
-
-                        <li>
-                            Diperoleh:
-                            <div class="rumus">
-                                x ≥ ${formatAngka(batas)}
-                            </div>
-                        </li>
-                    </ol>
-
-                    <p>
-                        <b>Kesimpulan:</b>
-                        Domainnya adalah
-                        <b>x ≥ ${formatAngka(batas)}</b>.
-                    </p>
-                `;
-
-                return;
-            }
-        }
-    }
-
-
-    /* =================================================
-       JIKA SOAL BELUM DIKENALI
-    ================================================= */
-
-    hasil.innerHTML = `
-        <h2>Soal Diterima</h2>
-
-        <p>
-            <b>Soal:</b> ${soal}
-        </p>
-
-        <div class="peringatan">
-            <b>Jenis soal belum dikenali.</b>
-            <br><br>
-            Saat ini kalkulator mendukung beberapa jenis soal
-            fungsi yang sudah diprogram.
-            Kita bisa menambahkan jenis soal lainnya jika diperlukan.
-        </div>
-    `;
-}
-
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
